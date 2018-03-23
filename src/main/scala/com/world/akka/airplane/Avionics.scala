@@ -1,11 +1,13 @@
-package com.world.akka.airplane.factory
+package com.world.akka.airplane
 
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.pattern.ask
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Await
 import akka.util.Timeout
 import com.world.akka.airplane.ControlSurfaces._
+import com.world.akka.airplane.factory.Plane
+
+import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
 // The futures created by the ask syntax need an

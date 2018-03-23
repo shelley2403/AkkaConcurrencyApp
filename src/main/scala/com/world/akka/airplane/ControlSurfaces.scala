@@ -25,5 +25,7 @@ class ControlSurfaces(altimeter: ActorRef) extends Actor {
     // Altimeter that we're descending
     case StickForward(amount) =>
       altimeter ! RateChange(-1 * amount)
+
+
   }
 }

@@ -1,18 +1,19 @@
 package com.world.akka.airplane
 
 import akka.actor.{Actor, ActorLogging}
-import com.world.akka.airplane.EventReporting.EventSource
-
+import com.world.akka.airplane.EventReporter_1.{EventSource_1, ProductionEventSource}
 import scala.concurrent.duration._
 
 object Altimeter {
+  def apply(): Altimeter = new Altimeter with ProductionEventSource
   case class RateChange(amount: Float)
   // Sent by the Altimeter at regular intervals
   case class AltitudeUpdate(altitude: Double)
 }
 
-
-class Altimeter extends Actor with ActorLogging with EventSource {
+// Altimeter self-types to the EventSource
+class Altimeter extends Actor with ActorLogging /*with EventSource*/ {
+  this: EventSource_1 =>
   import Altimeter._
   // We need an "ExecutionContext" for the scheduler.  This
   // Actor's dispatcher can serve that purpose.  The
