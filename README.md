@@ -27,3 +27,10 @@ You can  use it as well, to publish messages across your entire ActorSystem.
 The dead letter office is available, which means you can hook things up to  it directly if you'd like.
 We can obtain references to all of the currently  running actors in an ActorSystem's hierarchy via a set of functions called  actorFor.
 You can get the uptime of your app from here as well.There are functions that let you shut the system down, as well as stop  individual actors.
+
+Dead Letter Office: Any time a message is destined for an actor that either doesn't exist or is not running, it goes to the dead letter office.
+User Guardian Actor: The user guardian actor is the parent of all actors we create from the ActorSystem.
+System guardian actor: It serves the same purpose as the user guardian actor, but for "system" actors.
+Scheduler: The default one lives as a child of the ActorSystem or also can be instantiated.
+Event Stream: We use it every time we write a log message, and for other uses.
+Settings: Akka uses a new configuration system that's useful for configuring Akka and your application. You can access it from the ActorSystem
