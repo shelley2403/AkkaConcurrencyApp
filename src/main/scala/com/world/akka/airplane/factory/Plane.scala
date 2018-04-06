@@ -8,7 +8,6 @@ import com.world.akka.airplane.actors.Altimeter.AltitudeUpdate
 import com.world.akka.airplane.supervisor.IsolatedLifeCycleSupervisor.WaitForStart
 import com.world.akka.airplane.supervisor.{IsolatedResumeSupervisor, IsolatedStopSupervisor, OneForOneStrategyFactory}
 import akka.pattern.ask
-
 import scala.concurrent._
 import scala.concurrent.duration._
 
