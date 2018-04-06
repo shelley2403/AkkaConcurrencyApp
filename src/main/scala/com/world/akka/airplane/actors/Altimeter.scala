@@ -1,8 +1,12 @@
-package com.world.akka.airplane
+package com.world.akka.airplane.actors
 
 import akka.actor.{Actor, ActorLogging}
 import com.world.akka.airplane.EventReporter_1.{EventSource_1, ProductionEventSource}
 import scala.concurrent.duration._
+
+trait AltimeterProvider {
+  def newAltimeter: Actor = Altimeter()
+}
 
 object Altimeter {
   def apply(): Altimeter = new Altimeter with ProductionEventSource
@@ -10,6 +14,8 @@ object Altimeter {
   // Sent by the Altimeter at regular intervals
   case class AltitudeUpdate(altitude: Double)
 }
+
+
 
 // Altimeter self-types to the EventSource
 class Altimeter extends Actor with ActorLogging /*with EventSource*/ {

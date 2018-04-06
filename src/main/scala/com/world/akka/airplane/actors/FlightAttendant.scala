@@ -15,7 +15,7 @@ object FlightAttendant {
   // By default we will make attendants that respond
   // within 5 minutes
   def apply() = new FlightAttendant
-    with AttendantResponsiveness {
+    with AttendantResponsiveness  {
     val maxResponseTimeMS = 300000
   }
 }

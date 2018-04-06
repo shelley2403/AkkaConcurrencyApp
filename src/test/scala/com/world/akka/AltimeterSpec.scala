@@ -16,7 +16,8 @@ class AltimeterSpec extends TestKit(ActorSystem("AltimeterSpec"))
   with Matchers
   with BeforeAndAfterAll {
 
-  import com.world.akka.airplane.Altimeter
+  import com.world.akka.airplane.actors.Altimeter
+
   override def afterAll() { system.terminate() }
 
   // We'll instantiate a Helper class for every test, making

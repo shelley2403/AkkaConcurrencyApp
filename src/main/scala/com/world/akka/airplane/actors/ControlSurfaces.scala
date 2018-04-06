@@ -1,4 +1,4 @@
-package com.world.akka.airplane
+package com.world.akka.airplane.actors
 
 import akka.actor.{Actor, ActorRef}
 
@@ -13,8 +13,8 @@ object ControlSurfaces {
 // Pass in the Altimeter as an ActorRef so that we can send
 // messages to it
 class ControlSurfaces(altimeter: ActorRef) extends Actor {
-  import ControlSurfaces._
   import Altimeter._
+  import ControlSurfaces._
 
   def receive = {
     // Pilot pulled the stick back by a certain amount,
