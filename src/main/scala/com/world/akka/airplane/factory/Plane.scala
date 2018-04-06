@@ -29,7 +29,6 @@ class Plane extends Actor with ActorLogging {
   //val altimeter: ActorRef = context.actorOf(Props[Altimeter], "Altimeter")
   val cfgstr = "zzz.akka.avionics.flightcrew"
   val config = context.system.settings.config
-
   //commented out as a part of refactoring to get instances from Traits
 //  val altimeter: ActorRef = context.actorOf(Props(newAltimeter), "Altimeter")
 //  val controls: ActorRef = context.actorOf(Props(new ControlSurfaces(altimeter)), "ControlSurfaces")
