@@ -3,7 +3,7 @@ package com.world.akka.airplane
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.pattern.ask
 import akka.util.Timeout
-import com.world.akka.airplane.ControlSurfaces._
+import com.world.akka.airplane.actors.ControlSurfaces.StickBack
 import com.world.akka.airplane.factory.Plane
 
 import scala.concurrent.Await
@@ -21,7 +21,7 @@ object Avionics {
   val plane = system.actorOf(Props[Plane], "Plane")
 
   def main(args: Array[String]) {
-    // Grab the controls
+    // Grab the control
     val control = Await.result((plane ? Plane.GiveMeControl).mapTo[ActorRef], 5.seconds)
     //the type that is returned as an Any, due to the fact that messages between actors are of type Any
     // Takeoff!

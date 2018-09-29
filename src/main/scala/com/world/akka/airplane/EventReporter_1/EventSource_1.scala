@@ -2,6 +2,8 @@ package com.world.akka.airplane.EventReporter_1
 
 import akka.actor.{Actor, ActorRef}
 
+//Production Event Source can be extended by Altimeter and other classes that are responsible for publishing a message.
+//Classes like Plane and others can subscribe themselves to listen to these messages by subscribing itself to listen to the messages
 trait EventSource_1 {
   def sendEvent[T](event: T): Unit
   def eventSourceReceive: Actor.Receive

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="Log4J2_Configuration" status="WARN" strict="TRUE" monitorInterval="5">
+    <properties>
+        <!-- shared properties -->
+        <property name="logPattern">%d{ISO8601} %-5p [%t] - %m%n</property>
+
+        <!-- properties for application log -->
+        <property name="logFileName">/opt/here/b2bproductcreators/logs/application.log</property>
+        <property name="logFileNamePattern">/opt/here/b2bproductcreators/logs/application-%d{yyyy-MM-dd}-%i.log.gz</property>
+        <property name="logFileSize">50 MB</property>
+        <property name="logFileCount">30</property>
+
+    </properties>
+    <appenders>
+        <appender name="applicationAppender" type="RollingFile"
+                  fileName="${logFileName}" filePattern="${logFileNamePattern}"
+                  bufferedIO="true" immediateFlush="true" append="true">
+            <layout type="PatternLayout" pattern="${logPattern}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="${logFileSize}"/>
+            </Policies>
+            <DefaultRolloverStrategy max="${logFileCount}" />
+        </appender>
+        <appender name="consoleAppender" type="Console">
+            <layout type="JSONLayout" compact="true" eventEol="true" stacktraceAsString="true"/>
+        </appender>
+    </appenders>
+    <loggers>
+        <root level="debug">
+            <appender-ref ref="consoleAppender"/>
+            <appender-ref ref="applicationAppender"/>
+        </root>
+    </loggers>
+</configuration>

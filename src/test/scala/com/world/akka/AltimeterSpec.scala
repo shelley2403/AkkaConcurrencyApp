@@ -2,21 +2,19 @@ package com.world.akka
 
 import akka.actor.{Actor, ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestActorRef, TestKit, TestLatch}
-import com.world.akka.airplane.Altimeter.{AltitudeUpdate, RateChange}
 import com.world.akka.airplane.EventReporter_1.EventSource_1
 import com.world.akka.airplane.EventReporting.EventSource
+import com.world.akka.airplane.actors.Altimeter.{AltitudeUpdate, RateChange}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
-
 import scala.concurrent.duration._
 import scala.concurrent.Await
+import com.world.akka.airplane.actors.Altimeter
 
 class AltimeterSpec extends TestKit(ActorSystem("AltimeterSpec"))
   with ImplicitSender
   with WordSpecLike
   with Matchers
   with BeforeAndAfterAll {
-
-  import com.world.akka.airplane.actors.Altimeter
 
   override def afterAll() { system.terminate() }
 

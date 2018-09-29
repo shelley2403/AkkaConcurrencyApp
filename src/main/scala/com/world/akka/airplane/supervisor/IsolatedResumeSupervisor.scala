@@ -4,7 +4,7 @@ import akka.actor.SupervisorStrategy.{Escalate, Resume, Stop}
 import akka.actor.{ActorInitializationException, ActorKilledException}
 import scala.concurrent.duration.Duration
 
-abstract class IsolatedResumeSupervisor(maxNrRetries: Int = -1, withinTimeRange: Duration = Duration.Inf) extends IsolatedLifeCycleSupervisor {
+abstract class IsolatedResumeSupervisor(maxNrRetries: Int = -1, withinTimeRange: Duration = Duration.Inf) extends IsolatedLifeCycleSupervisor with SupervisionStrategyFactory {
   this: SupervisionStrategyFactory =>
 
   override val supervisorStrategy = makeStrategy(

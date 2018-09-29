@@ -1,6 +1,6 @@
 package com.world.akka.airplane.actors
 
-import akka.actor.{Actor, ActorLogging, ActorRef, Props}
+import akka.actor.{Actor, ActorRef, Props}
 
 // The Lead is going to construct its own subordinates.
 // We'll have a policy to vary that

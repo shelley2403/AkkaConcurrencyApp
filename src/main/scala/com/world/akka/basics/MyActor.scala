@@ -24,7 +24,7 @@ class MyActor extends Actor {
       println(deadActor.path.name + " has died")
   }
 
-  def receive2 = {
+  def receive2: Receive = {
     // Literal String match
     case "Hello" =>
       println("Hi")

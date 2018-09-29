@@ -16,6 +16,7 @@ object Plane {
   // asks for them
   case object GiveMeControl
   case class Controls(controls: ActorRef)
+
 }
 // We want the Plane to own the Altimeter and we're going to
 // do that by passing in a specific factory we can use to
@@ -40,8 +41,8 @@ class Plane extends Actor with ActorLogging {
   override def preStart() {
     // Register ourself with the Altimeter to receive updates
     // on our altitude
-    altimeter ! RegisterListener(self)
-    List(pilot, copilot) foreach { _ ! Pilots.ReadyToGo }
+    context.child("altimeter").get ! RegisterListener(self)
+    List(context.child("pilot").get, context.child("copilot").get) foreach { _ ! Pilot.ReadyToGo }
   }
 
   def receive: PartialFunction[Any, Unit] = {
@@ -51,14 +52,13 @@ class Plane extends Actor with ActorLogging {
       log info "Plane giving control."
       //Bad idea to directly send ActorRef: wrap it in the case class instead
       /*sender ! controls*/
-      sender! Controls(controls)
+      sender! Controls(context.child("ControlSurfaces").get)
   }
 
   def startEquipment() {
     val controls = context.actorOf(Props(new IsolatedResumeSupervisor with OneForOneStrategyFactory {
         def childStarter() {
           val alt = context.actorOf(Props(newAltimeter), "Altimeter")
-          // These children get implicitly added to the hierarchy
           context.actorOf(Props(newAutopilot), "Autopilot")
           context.actorOf(Props(new ControlSurfaces(alt)), "ControlSurfaces")
         }
@@ -66,16 +66,16 @@ class Plane extends Actor with ActorLogging {
     Await.result(controls ? WaitForStart, 1.second)
   }
 
-  def startPeople() {
-    val people = context.actorOf(Props(new IsolatedStopSupervisor with OneForOneStrategyFactory {
-        def childStarter() {
-          // These children get implicitly added to the hierarchy
-          context.actorOf(Props(newPilot), config.getString(s"$cfgstr.pilotName"))
-          context.actorOf(Props(newCopilot), config.getString(s"$cfgstr.copilotName"))
-        }
-      }), "Pilots")
-    // Use the default strategy here, which restarts indefinitely
-    context.actorOf(Props(newLeadFlightAttendant), config.getString(s"$cfgstr.leadAttendantName"))
-    Await.result(people ? WaitForStart, 1.second)
-  }
+//  def startPeople() {
+//    val people = context.actorOf(Props(new IsolatedStopSupervisor with OneForOneStrategyFactory {
+//        def childStarter() {
+//          // These children get implicitly added to the hierarchy
+//          context.actorOf(Props(new Pilot), config.getString(s"$cfgstr.pilotName"))
+//          context.actorOf(Props(new Copilot), config.getString(s"$cfgstr.copilotName"))
+//        }
+//      }), "Pilots")
+//    // Use the default strategy here, which restarts indefinitely
+//    context.actorOf(Props(newLeadFlightAttendant), config.getString(s"$cfgstr.leadAttendantName"))
+//    Await.result(people ? WaitForStart, 1.second)
+//  }
 }
