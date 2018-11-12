@@ -1,10 +1,10 @@
 package com.world.akka.airplane
 
 import akka.actor.{ActorRef, ActorSystem, Props}
-import akka.pattern.ask
 import akka.util.Timeout
 import com.world.akka.airplane.actors.ControlSurfaces.StickBack
-import com.world.akka.airplane.factory.Plane
+import akka.pattern._
+import com.world.akka.airplane.actors.RefactoredPlane
 
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -18,11 +18,11 @@ object Avionics {
   // needed for '?' below
   implicit val timeout = Timeout(5.seconds)
   val system = ActorSystem("PlaneSimulation")
-  val plane = system.actorOf(Props[Plane], "Plane")
+  val plane = system.actorOf(Props[RefactoredPlane], "Plane")
 
   def main(args: Array[String]) {
     // Grab the control
-    val control = Await.result((plane ? Plane.GiveMeControl).mapTo[ActorRef], 5.seconds)
+    val control = Await.result((plane ? RefactoredPlane.GiveMeControl).mapTo[ActorRef], 5.seconds)
     //the type that is returned as an Any, due to the fact that messages between actors are of type Any
     // Takeoff!
     system.scheduler.scheduleOnce(200.millis) {
